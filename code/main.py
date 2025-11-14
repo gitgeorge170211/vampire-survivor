@@ -26,7 +26,8 @@ class Game():
         self.player = Player((500,300), self.all_sprites, self.collision_sprites)
 
     def setup(self):
-        map = load_pygame(join("data", "maps", "world.tmx"))
+        self.MAP_PATH = os.path.join(GAME_ROOT, "data", "maps", "world.tmx")
+        map = load_pygame(self.MAP_PATH)
 
 
         for x, y, image in map.get_layer_by_name("Ground").tiles():
