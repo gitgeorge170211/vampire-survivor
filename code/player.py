@@ -1,15 +1,16 @@
 from settings import *
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, groups, collision_sprites):
+    def __init__(self, pos, groups, collision_sprites, is_background=False):
         super().__init__(groups)
         self.image = pygame.image.load(join(GAME_ROOT, "images", "player", "down", "0.png")).convert_alpha()
         self.rect = self.image.get_frect(center = pos)
         self.dir = pygame.math.Vector2()
         self.speed = 250
         self.collision_sprites = collision_sprites
-        self.hitbox_rect = self.rect.inflate(-60, 0)
+        self.hitbox_rect = self.rect.inflate(-60, -60)
         self.hitbox_rect.center = self.rect.center
+        self.is_background = is_background
 
     def update(self, dt):
         # input
