@@ -8,7 +8,7 @@ class Player(pygame.sprite.Sprite):
         self.dir = pygame.math.Vector2()
         self.speed = 250
         self.collision_sprites = collision_sprites
-        self.hitbox_rect = self.rect.inflate(-60, -60)
+        self.hitbox_rect = self.rect.inflate(-60, -90)
         self.hitbox_rect.center = self.rect.center
         self.is_background = is_background
 
