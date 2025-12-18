@@ -3,6 +3,7 @@ from settings import *
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, groups, collision_sprites, is_background=False):
         super().__init__(groups)
+        self.load_files()
         self.image = pygame.image.load(join(GAME_ROOT, "images", "player", "down", "0.png")).convert_alpha()
         self.rect = self.image.get_frect(center = pos)
         self.dir = pygame.math.Vector2()
@@ -11,6 +12,13 @@ class Player(pygame.sprite.Sprite):
         self.hitbox_rect = self.rect.inflate(-60, -90)
         self.hitbox_rect.center = self.rect.center
         self.is_background = is_background
+
+    def load_files(self):
+        files = {'left':[], 'right':[], 'up':[], 'down':[]}
+        for folder in files:
+            for subfolder in walk(join(GAME_ROOT, 'images', 'player', folder)):
+                for file in subfolder[-1]:
+                    print(file, end='\n')
 
     def update(self, dt):
         # input
