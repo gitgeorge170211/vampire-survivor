@@ -22,13 +22,8 @@ class Game():
 
         self.setup()
 
-        # sprites
-        
-
     def setup(self):
-        self.MAP_PATH = join(GAME_ROOT, "data", "maps", "world.tmx")
-        map = load_pygame(self.MAP_PATH)
-
+        map = load_pygame(join(BASE_DIR, "data", "maps", "world.tmx"))
 
         for x, y, image in map.get_layer_by_name("Ground").tiles():
             Sprite((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites, True)
@@ -36,13 +31,13 @@ class Game():
         for obj in map.get_layer_by_name("Objects"):
             CollisionSprite((obj.x, obj.y), obj.image, (self.all_sprites, self.collision_sprites))
 
+        for obj in map.get_layer_by_name("Entities"):
+            if obj.name == "Player":
+                self.player = Player((obj.x, obj.y), self.all_sprites, self.collision_sprites)
+
         for obj in map.get_layer_by_name("Collisions"):
             CollisionSprite((obj.x, obj.y), pygame.Surface((obj.width, obj.height)), (self.collision_sprites))
             
-        for sprite in map.get_layer_by_name("Entities"):
-            if sprite.name == "Player":
-                self.player = Player((sprite.x, sprite.y), self.all_sprites, self.collision_sprites)
-
     def run(self):
         while self.running:
             self.dt = self.clock.tick(60) / 1000
