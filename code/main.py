@@ -1,5 +1,6 @@
 from settings import *
 from player import Player
+from gun import Gun
 from sprites import *
 from pytmx.util_pygame import load_pygame
 from groups import AllGroups
@@ -23,10 +24,10 @@ class Game():
         self.setup()
 
     def setup(self):
-        map = load_pygame(join(BASE_DIR, "data", "maps", "world.tmx"))
+        map = load_pygame(join(GAME_ROOT, "data", "maps", "world.tmx"))
 
         for x, y, image in map.get_layer_by_name("Ground").tiles():
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites, True)
+            Sprite((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)
 
         for obj in map.get_layer_by_name("Objects"):
             CollisionSprite((obj.x, obj.y), obj.image, (self.all_sprites, self.collision_sprites))
@@ -38,6 +39,8 @@ class Game():
         for obj in map.get_layer_by_name("Collisions"):
             CollisionSprite((obj.x, obj.y), pygame.Surface((obj.width, obj.height)), (self.collision_sprites))
             
+        self.gun = Gun(self.player, self.all_sprites, self.all_sprites)
+
     def run(self):
         while self.running:
             self.dt = self.clock.tick(60) / 1000
@@ -50,6 +53,7 @@ class Game():
             self.screen.fill("black")
             self.all_sprites.draw(self.player.rect.topleft)
             pygame.display.update()
+        pygame.quit()
 
 if __name__ == "__main__":
     game = Game()

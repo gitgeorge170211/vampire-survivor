@@ -1,18 +1,18 @@
 from settings import *
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, groups, collision_sprites, is_background=False):
+    def __init__(self, pos, groups, collision_sprites):
         super().__init__(groups)
-        self.load_files()
-        self.image = pygame.image.load(join(GAME_ROOT, "images", "player", "down", "0.png"))
+        # self.load_files()
+        self.image = pygame.transform.scale_by(pygame.image.load(join(GAME_ROOT, "images", "gun", "pistol", "1.png")), 0.08)
         self.rect = self.image.get_frect(center = pos)
         self.dir = pygame.math.Vector2()
         self.speed = 250
         self.collision_sprites = collision_sprites
         self.hitbox_rect = self.rect.inflate(-60, -90)
         self.hitbox_rect.center = self.rect.center
-        self.state, self.frame_index, self.frame_change = "down", 0, 5
-        self.is_background = is_background
+        self.state, self.frame_index, self.frame_change = "down", 0, 1
+        self.frames = self.load_files() # placeholder
 
     def load_files(self):
         self.frames = {"left":[], "right":[], "up":[], "down":[]}
@@ -22,6 +22,7 @@ class Player(pygame.sprite.Sprite):
                     full_path = join(folder_path, file_name)
                     surf = pygame.image.load(full_path).convert_alpha()
                     self.frames[state].append(surf)
+        return self.frames
 
     def animate(self, dt):
         if self.dir.x != 0:
@@ -31,8 +32,8 @@ class Player(pygame.sprite.Sprite):
 
         if self.dir.x or self.dir.y:
             self.frame_index += self.frame_change * dt
-        else:
-            self.frame_index = 0
+        # else:
+        #     self.frame_index = 0
 
         self.image = self.frames[self.state][int(self.frame_index) % len(self.frames[self.state])]
 
@@ -63,3 +64,4 @@ class Player(pygame.sprite.Sprite):
                 else:
                     if self.dir.y > 0: self.hitbox_rect.bottom = sprite.rect.top
                     if self.dir.y < 0: self.hitbox_rect.top = sprite.rect.bottom
+
