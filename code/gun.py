@@ -2,12 +2,13 @@ from settings import *
 from sprites import Bullet, Line
 
 class Gun(pygame.sprite.Sprite):
-    def __init__(self, player, all_sprites, groups):
+    def __init__(self, player, all_sprites, screen, groups):
         super().__init__(groups)
         self.original_image = pygame.image.load(join(GAME_ROOT, "images", "gun", "pistol", "0.png")).convert_alpha()
-        self.original_image = pygame.transform.scale_by(self.original_image, 0.09)
+        self.original_image = pygame.transform.scale_by(self.original_image, 0.9)
         self.player = player
         self.all_sprites = all_sprites
+        self.screen = screen
         self.shooting_sound = pygame.mixer.Sound(join(GAME_ROOT, "audio", "shoot.wav"))
         self.shooting_sound.set_volume(0.4)
         self.fov = 150 # field of view
@@ -22,16 +23,15 @@ class Gun(pygame.sprite.Sprite):
         self.shooting_state = False
         self.gun_movement_cooldown = 220
         self.shooting_cooldown = 250
-        is_background = False
 
     def update(self, dt):
-        self.hand_offset = self.hand_offsets[self.player.state][self.player.frame_index]
+        self.hand_offset = self.hand_offsets[self.player.state][int(self.player.frame_index) % len(self.player.frames[self.player.state])]
         hand_pos = pygame.math.Vector2(self.player.rect.topleft) + pygame.math.Vector2(self.hand_offset)
 
         if not self.shooting_state:
             player_angle = self.player_angles[self.player.state]
             mouse_pos = pygame.mouse.get_pos()
-            mouse_angle = degrees(atan2(mouse_pos[1] - hand_pos[1], mouse_pos[0] - hand_pos[0]))
+            mouse_angle = degrees(atan2(-(mouse_pos[1] - hand_pos[1]), mouse_pos[0] - hand_pos[0]))
             mouse_angle %= 360
             angle_dif = (player_angle - mouse_angle) % 360
             if angle_dif > 180:
@@ -52,7 +52,7 @@ class Gun(pygame.sprite.Sprite):
                     self.shooting_sound.play()
 
                 else:
-                    Line(self.rect.topleft, self.all_sprites)
+                    Line(self.rect.topleft, self.screen, self.all_sprites)
                     # place indicating line
 
 

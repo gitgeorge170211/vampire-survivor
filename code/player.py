@@ -32,8 +32,8 @@ class Player(pygame.sprite.Sprite):
 
         if self.dir.x or self.dir.y:
             self.frame_index += self.frame_change * dt
-        # else:
-        #     self.frame_index = 0
+        else:
+             self.frame_index = 0
 
         self.image = self.frames[self.state][int(self.frame_index) % len(self.frames[self.state])]
 

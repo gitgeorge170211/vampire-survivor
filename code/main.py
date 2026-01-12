@@ -39,7 +39,7 @@ class Game():
         for obj in map.get_layer_by_name("Collisions"):
             CollisionSprite((obj.x, obj.y), pygame.Surface((obj.width, obj.height)), (self.collision_sprites))
             
-        self.gun = Gun(self.player, self.all_sprites, self.all_sprites)
+        self.gun = Gun(self.player, self.all_sprites, self.screen, self.all_sprites)
 
     def run(self):
         while self.running:
