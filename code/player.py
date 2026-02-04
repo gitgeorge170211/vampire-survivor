@@ -11,7 +11,7 @@ class Player(pygame.sprite.Sprite):
         self.collision_sprites = collision_sprites
         self.hitbox_rect = self.rect.inflate(-60, -90)
         self.hitbox_rect.center = self.rect.center
-        self.state, self.frame_index, self.frame_change = "down", 0, 1
+        self.state, self.frame_index, self.frame_change = "down", 0, 5
         self.frames = self.load_files()
         self.hand_offsets = {
                             'down': [(88.0, 89.0), (83.0, 94.0), (88.0, 89.0), (87.0, 89.0)],
