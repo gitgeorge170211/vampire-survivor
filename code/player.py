@@ -12,7 +12,28 @@ class Player(pygame.sprite.Sprite):
         self.hitbox_rect = self.rect.inflate(-60, -90)
         self.hitbox_rect.center = self.rect.center
         self.state, self.frame_index, self.frame_change = "down", 0, 1
-        self.frames = self.load_files() # placeholder
+        self.frames = self.load_files()
+        self.hand_offsets = {
+                            'down': [(88.0, 89.0), (83.0, 94.0), (88.0, 89.0), (87.0, 89.0)],
+                            'up': [(39.0, 90.0), (39.0, 89.0), (39.0, 89.0), (43.0, 92.0)],
+                            'right': [(73.0, 90.0), (69.0, 90.0), (75.0, 90.0), (76.0, 87.0)],
+                            'left': [(77.0, 90.0), (71.0, 89.0), (80.0, 89.0), (84.0, 89.0)]
+                            }
+        
+    def find_angle(self):
+        mouse_pos = pygame.mouse.get_pos()
+        self.hand_offset = self.hand_offsets[self.player.state][int(self.player.frame_index) % len(self.player.frames[self.player.state])]
+        hand_pos = pygame.math.Vector2(self.player.rect.topleft) + pygame.math.Vector2(self.hand_offset)
+
+        dx = (mouse_pos[0] - hand_pos[0])
+        dy = (mouse_pos[1] - hand_pos[1])
+        mouse_angle = atan2(dx, dy)
+        mouse_angle = degrees(mouse_angle)
+            
+        return mouse_angle
+
+    def turn_to_shoot(self):
+        pass
 
     def load_files(self):
         self.frames = {"left":[], "right":[], "up":[], "down":[]}

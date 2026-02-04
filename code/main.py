@@ -1,6 +1,6 @@
 from settings import *
 from player import Player
-from gun import Gun
+from gun_update import Gun
 from sprites import *
 from pytmx.util_pygame import load_pygame
 from groups import AllGroups

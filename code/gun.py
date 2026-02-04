@@ -1,5 +1,5 @@
 from settings import *
-from sprites import Bullet, Line
+from sprites import Bullet
 
 class Gun(pygame.sprite.Sprite):
     def __init__(self, player, all_sprites, screen, groups):
@@ -14,11 +14,6 @@ class Gun(pygame.sprite.Sprite):
         self.fov = 150 # field of view
         self.gun_offset = (17.0, 34.0)
         #self.gun_offset = [(17.0, 34.0),(40.0, 82.0)]
-        self.hand_offsets = {'down': [(88.0, 89.0), (83.0, 94.0), (88.0, 89.0), (87.0, 89.0)],
-                                    'up': [(39.0, 90.0), (39.0, 89.0), (39.0, 89.0), (43.0, 92.0)],
-                                    'right': [(73.0, 90.0), (69.0, 90.0), (75.0, 90.0), (76.0, 87.0)],
-                                    'left': [(77.0, 90.0), (71.0, 89.0), (80.0, 89.0), (84.0, 89.0)]
-                                    }
         self.player_angles = {"left":180, "right":0, "up":90, "down":270}
         self.shooting_state = False
         self.gun_movement_cooldown = 220
@@ -27,6 +22,10 @@ class Gun(pygame.sprite.Sprite):
     def update(self, dt):
         self.hand_offset = self.hand_offsets[self.player.state][int(self.player.frame_index) % len(self.player.frames[self.player.state])]
         hand_pos = pygame.math.Vector2(self.player.rect.topleft) + pygame.math.Vector2(self.hand_offset)
+        
+        self.image = pygame.transform.rotate(self.original_image, mouse_angle)
+        image_topleft = hand_pos - pygame.math.Vector2((self.gun_offset[0], self.gun_offset[1]))
+        self.rect = self.image.get_frect(topleft = (image_topleft))
 
         if not self.shooting_state:
             player_angle = self.player_angles[self.player.state]
@@ -39,9 +38,7 @@ class Gun(pygame.sprite.Sprite):
 
             if angle_dif <= self.fov / 2:
                 #place gun
-                self.image = pygame.transform.rotate(self.original_image, mouse_angle)
-                image_topleft = hand_pos - pygame.math.Vector2((self.gun_offset[0], self.gun_offset[1]))
-                self.rect = self.image.get_frect(topleft = (image_topleft))
+
 
                 if pygame.mouse.get_just_pressed()[0]: 
                     self.shooting_state = True
