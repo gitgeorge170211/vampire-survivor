@@ -6,6 +6,8 @@ class Gun(pygame.sprite.Sprite):
         super().__init__(groups)
         self.original_image = pygame.image.load(join(GAME_ROOT, "images", "gun", "pistol", "0.png")).convert_alpha()
         self.original_image = pygame.transform.scale_by(self.original_image, 0.9)
+        self.image = self.original_image #temporary 
+        self.rect = self.image.get_frect(center = (WINDOW_WIDTH/2, WINDOW_HEIGHT/2)) #temporary
         self.player = player
         self.all_sprites = all_sprites
         self.screen = screen
@@ -29,13 +31,22 @@ class Gun(pygame.sprite.Sprite):
 
         return mouse_angle
 
-    def update(self, dt):
-        
-        self.hand_offset = self.player.hand_offsets[self.player.state][int(self.player.frame_index) % len(self.player.frames[self.player.state])]
-        hand_pos = pygame.math.Vector2(self.player.rect.topleft) + pygame.math.Vector2(self.hand_offset)
+    def place_gun(self, hand_pos, mouse_angle):
         mouse_angle = self.get_angle(hand_pos)
-        self.image = pygame.transform.rotate(self.original_image, mouse_angle)
+        
         image_topleft = hand_pos - pygame.math.Vector2((self.gun_offset[0], self.gun_offset[1]))
         self.rect = self.image.get_frect(topleft = (image_topleft))
+
+    def update(self, dt):
+        if pygame.mouse.get_just_pressed()[0]:
+            # image rotation
+            self.image = pygame.transform.rotate(self.original_image, mouse_angle)
+            # calculation of the position where the gun is placed on the player's hand
+            self.hand_offset = self.player.hand_offsets[self.player.state][int(self.player.frame_index) % len(self.player.frames[self.player.state])]
+            hand_pos = pygame.math.Vector2(self.player.rect.topleft) + pygame.math.Vector2(self.hand_offset)
+
+            mouse_angle = get_angle()
+            place_gun(hand_pos, mouse_angle)
+
             
                     
