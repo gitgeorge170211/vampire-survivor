@@ -18,8 +18,9 @@ class Gun(pygame.sprite.Sprite):
         #self.gun_offset = [(17.0, 34.0),(40.0, 82.0)]
         self.player_angles = {"left":180, "right":0, "up":90, "down":270}
         self.shooting_state = False
-        self.gun_movement_cooldown = 220
-        self.shooting_cooldown = 250
+        self.shoot_time = None
+        self.gun_movement_cooldown = 700
+        self.shooting_cooldown = 1000
 
     def get_angle(self, hand_pos):
         mouse_pos = pygame.mouse.get_pos()
@@ -41,7 +42,20 @@ class Gun(pygame.sprite.Sprite):
     #     return image_topleft
 
     def update(self, dt):
+
+        if self.shoot_time != None:
+            current_time = pygame.time.get_ticks()
+            if (current_time - self.shoot_time) < self.gun_movement_cooldown:
+                return
+
         if pygame.mouse.get_just_pressed()[0]:
+
+            if self.shoot_time != None:
+                current_time = pygame.time.get_ticks()
+                if (current_time - self.shoot_time) < self.shooting_cooldown:
+                    return
+        
+            self.shoot_time = pygame.time.get_ticks()
             # calculation of the position where the gun is placed on the player's hand
             self.hand_offset = self.player.hand_offsets[self.player.state][int(self.player.frame_index) % len(self.player.frames[self.player.state])]
             hand_pos = pygame.math.Vector2(self.player.rect.topleft) + pygame.math.Vector2(self.hand_offset)
@@ -52,14 +66,10 @@ class Gun(pygame.sprite.Sprite):
             self.rect = self.image.get_frect(topleft = (image_topleft))
         
         else:
+     
             self.hand_offset = self.player.hand_offsets[self.player.state][int(self.player.frame_index) % len(self.player.frames[self.player.state])]
             hand_pos = pygame.math.Vector2(self.player.rect.topleft) + pygame.math.Vector2(self.hand_offset)
             image_topleft = hand_pos - pygame.math.Vector2((self.gun_offset[0], self.gun_offset[1]))
 
             self.image = self.original_image
-            self.rect = self.image.get_frect(topleft = (image_topleft))
-
-        
-
-            
-                    
+            self.rect = self.image.get_frect(topleft = (image_topleft))               

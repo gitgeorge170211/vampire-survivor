@@ -40,6 +40,7 @@ class Game():
             CollisionSprite((obj.x, obj.y), pygame.Surface((obj.width, obj.height)), (self.collision_sprites))
             
         self.gun = Gun(self.player, self.all_sprites, self.screen, self.all_sprites)
+        self.player.set_weapon(self.gun)
 
     def run(self):
         while self.running:

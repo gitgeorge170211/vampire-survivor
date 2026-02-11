@@ -4,14 +4,14 @@ class Sprite(pygame.sprite.Sprite):
     def __init__(self, pos, surf, groups):
         super().__init__(groups)
         self.image = surf
-        self.rect = self.image.get_frect(center = pos)
+        self.rect = self.image.get_frect(topleft = pos)
         self.ground = True
 
 class CollisionSprite(pygame.sprite.Sprite):
     def __init__(self, pos, surf, groups):
         super().__init__(groups)
-        self.image = surf
-        self.rect = self.image.get_frect(center = pos)
+        self.image = surf#.fill((255, 128, 0))
+        self.rect = self.image.get_frect(topleft = pos)
 
 class Bullet(pygame.sprite.Sprite):
     pass

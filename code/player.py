@@ -10,9 +10,10 @@ class Player(pygame.sprite.Sprite):
         self.speed = 250
         self.collision_sprites = collision_sprites
         self.hitbox_rect = self.rect.inflate(-60, -90)
-        self.hitbox_rect.center = self.rect.center
+        self.hitbox_rect.midbottom = self.rect.midbottom
         self.state, self.frame_index, self.frame_change = "down", 0, 5
         self.frames = self.load_files()
+        self.weapon = None
         self.hand_offsets = {
                             'down': [(88.0, 89.0), (83.0, 94.0), (88.0, 89.0), (87.0, 89.0)],
                             'up': [(39.0, 90.0), (39.0, 89.0), (39.0, 89.0), (43.0, 92.0)],
@@ -20,6 +21,9 @@ class Player(pygame.sprite.Sprite):
                             'left': [(77.0, 90.0), (71.0, 89.0), (80.0, 89.0), (84.0, 89.0)]
                             }
         
+    def set_weapon(self, weapon_obj):
+        self.weapon = weapon_obj
+
     def find_angle(self):
         mouse_pos = pygame.mouse.get_pos()
         self.hand_offset = self.hand_offsets[self.player.state][int(self.player.frame_index) % len(self.player.frames[self.player.state])]
@@ -69,9 +73,15 @@ class Player(pygame.sprite.Sprite):
         self.collision("horizontal")
         self.hitbox_rect.y += self.dir.y * self.speed * dt
         self.collision("vertical")
-        self.rect.center = self.hitbox_rect.center
+        self.rect.midbottom = self.hitbox_rect.midbottom
 
     def update(self, dt):
+        if self.weapon != None:
+            if self.weapon.shoot_time != None:
+                current_time = pygame.time.get_ticks()
+                if (current_time - self.weapon.shoot_time) < self.weapon.gun_movement_cooldown:
+                    return
+                
         self.input()
         self.move(dt)
         self.animate(dt)
