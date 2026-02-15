@@ -56,8 +56,8 @@
 12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12
 </data>
  </layer>
- <objectgroup id="4" name="Entities" visible="0">
-  <object id="38" name="Player" x="1693.33" y="1612">
+ <objectgroup id="4" name="Entities">
+  <object id="38" name="Player" x="1681.33" y="1661">
    <point/>
   </object>
   <object id="39" name="Enemy" x="1734.67" y="946.667">
@@ -227,7 +227,7 @@
   <object id="23" gid="214" x="1352" y="1672" width="128" height="192"/>
   <object id="24" gid="214" x="1986.67" y="1774.67" width="128" height="192"/>
   <object id="25" gid="214" x="1116" y="1001.33" width="128" height="192"/>
-  <object id="26" gid="214" x="1340" y="1360" width="128" height="192"/>
+  <object id="26" gid="214" x="1243" y="1313" width="128" height="192"/>
   <object id="27" gid="214" x="553.333" y="2129.33" width="128" height="192"/>
   <object id="28" gid="214" x="598.667" y="1506.67" width="128" height="192"/>
   <object id="29" gid="212" x="768" y="1075.33" width="56" height="60"/>
@@ -238,7 +238,7 @@
   <object id="34" gid="211" x="1706" y="1407.33" width="60" height="60"/>
   <object id="35" gid="211" x="1436.67" y="1704.66" width="60" height="60"/>
   <object id="36" gid="211" x="739.333" y="1690" width="60" height="60"/>
-  <object id="37" gid="211" x="1263.33" y="1318" width="60" height="60"/>
+  <object id="37" gid="211" x="1336.33" y="1350" width="60" height="60"/>
   <object id="102" gid="222" x="2348.89" y="2902.44" width="128" height="192"/>
   <object id="103" gid="222" x="1738.79" y="2806.2" width="128" height="192"/>
   <object id="104" gid="222" x="2256.09" y="2672.15" width="128" height="192"/>
@@ -280,7 +280,7 @@
   <object id="149" gid="212" x="2073.83" y="1324.09" width="56" height="60"/>
   <object id="150" gid="214" x="1882.62" y="1377.84" width="128" height="192"/>
   <object id="151" gid="215" x="1590.34" y="1421.68" width="64" height="128"/>
-  <object id="152" gid="215" x="1317.09" y="1287.63" width="64" height="128"/>
+  <object id="152" gid="215" x="1371.09" y="1281.63" width="64" height="128"/>
   <object id="153" gid="218" x="1853.28" y="1249.85" width="64" height="104"/>
   <object id="154" gid="214" x="1486.67" y="1549.33" width="128" height="192"/>
   <object id="155" gid="215" x="1534.67" y="1626.67" width="64" height="128"/>

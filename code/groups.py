@@ -9,8 +9,8 @@ class AllGroups(pygame.sprite.Group):
     def draw(self, target_pos):
         self.ground_sprites = [sprite for sprite in self if hasattr(sprite, "ground")]
         self.object_sprites = sorted([sprite for sprite in self if not hasattr(sprite, "ground")], key=lambda x: x.rect.bottom)
-        self.offset.x = -(target_pos[0] - WINDOW_WIDTH/2)
-        self.offset.y = -(target_pos[1] - WINDOW_HEIGHT/2)
+        self.offset.x = WINDOW_WIDTH/2 - target_pos[0]
+        self.offset.y = WINDOW_HEIGHT/2 - target_pos[1]
         for layer in [self.ground_sprites, self.object_sprites]:
             for sprite in layer:
                 self.display_surface.blit(sprite.image, sprite.rect.topleft + self.offset)

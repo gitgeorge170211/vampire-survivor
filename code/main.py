@@ -1,6 +1,6 @@
 from settings import *
 from player import Player
-from gun_update import Gun
+from gun import Gun
 from sprites import *
 from pytmx.util_pygame import load_pygame
 from groups import AllGroups
@@ -27,7 +27,7 @@ class Game():
         map = load_pygame(join(GAME_ROOT, "data", "maps", "world.tmx"))
 
         for x, y, image in map.get_layer_by_name("Ground").tiles():
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)
+            BackgroundSprite((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)
 
         for obj in map.get_layer_by_name("Objects"):
             CollisionSprite((obj.x, obj.y), obj.image, (self.all_sprites, self.collision_sprites))
@@ -49,6 +49,9 @@ class Game():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
+                
+                if pygame.mouse.get_just_pressed()[0]:
+                    print("mouse position:", pygame.mouse.get_pos())
 
             self.all_sprites.update(self.dt)
             self.screen.fill("black")

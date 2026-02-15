@@ -4,15 +4,16 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, pos, groups, collision_sprites):
         super().__init__(groups)
         # self.load_files()
-        self.image = pygame.transform.scale_by(pygame.image.load(join(GAME_ROOT, "images", "gun", "pistol", "1.png")), 0.08)
+        self.frames = self.load_files()
+        self.image = self.frames["down"][0]
         self.rect = self.image.get_frect(center = pos)
         self.dir = pygame.math.Vector2()
         self.speed = 250
+
         self.collision_sprites = collision_sprites
-        self.hitbox_rect = self.rect.inflate(-60, -90)
-        self.hitbox_rect.midbottom = self.rect.midbottom
+        self.hitbox_rect = pygame.FRect((0, 0), (60, 40))
+        self.hitbox_rect.midbottom = pos
         self.state, self.frame_index, self.frame_change = "down", 0, 5
-        self.frames = self.load_files()
         self.weapon = None
         self.hand_offsets = {
                             'down': [(88.0, 89.0), (83.0, 94.0), (88.0, 89.0), (87.0, 89.0)],
@@ -61,11 +62,12 @@ class Player(pygame.sprite.Sprite):
              self.frame_index = 0
 
         self.image = self.frames[self.state][int(self.frame_index) % len(self.frames[self.state])]
+        self.rect = self.image.get_frect(midbottom = self.hitbox_rect.midbottom)
 
     def input(self):
         keys = pygame.key.get_pressed()
-        self.dir.x = int(keys[pygame.K_RIGHT]) - int(keys[pygame.K_LEFT])
-        self.dir.y = int(keys[pygame.K_DOWN]) - int(keys[pygame.K_UP])
+        self.dir.x = int(keys[pygame.K_d]) - int(keys[pygame.K_a])
+        self.dir.y = int(keys[pygame.K_s]) - int(keys[pygame.K_w])
         self.dir = self.dir.normalize() if self.dir else self.dir
 
     def move(self, dt):
@@ -73,14 +75,12 @@ class Player(pygame.sprite.Sprite):
         self.collision("horizontal")
         self.hitbox_rect.y += self.dir.y * self.speed * dt
         self.collision("vertical")
-        self.rect.midbottom = self.hitbox_rect.midbottom
 
     def update(self, dt):
-        if self.weapon != None:
-            if self.weapon.shoot_time != None:
-                current_time = pygame.time.get_ticks()
-                if (current_time - self.weapon.shoot_time) < self.weapon.gun_movement_cooldown:
-                    return
+        if self.weapon.shoot_time != None:
+            current_time = pygame.time.get_ticks()
+            if (current_time - self.weapon.shoot_time) < self.weapon.gun_movement_cooldown:
+                return
                 
         self.input()
         self.move(dt)
