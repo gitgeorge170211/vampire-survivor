@@ -1,5 +1,5 @@
-import pygame
-from math import *
+from os.path import join
+from settings import *
 
 pygame.init()
 
@@ -17,8 +17,8 @@ def get_angle(hand_pos):
     return mouse_angle
 
 color = (200, 100, 70)
-original_surface = pygame.Surface((20, 100), pygame.SRCALPHA)
-original_surface.fill(color)
+original_surface = pygame.image.load(join(GAME_ROOT, 'images', 'gun', 'pistol', '0.png')).convert_alpha()
+
 surface = original_surface.copy()
 rect = original_surface.get_frect(center = (250, 250))
 # surface.set_alpha(145)
@@ -32,7 +32,7 @@ while running:
 
 
     mouse_angle = get_angle((250, 250))
-    surface = pygame.transform.rotate(original_surface, mouse_angle + 90)
+    surface = pygame.transform.rotate(original_surface, mouse_angle)
     rect = surface.get_frect(center = (250, 250))
 
     screen.fill((0,0,0))
