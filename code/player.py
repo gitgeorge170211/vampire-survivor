@@ -77,10 +77,10 @@ class Player(pygame.sprite.Sprite):
         self.collision("vertical")
 
     def update(self, dt):
-        if self.weapon.shoot_time != None:
-            current_time = pygame.time.get_ticks()
-            if (current_time - self.weapon.shoot_time) < self.weapon.gun_movement_cooldown:
-                return
+        # if self.weapon.shoot_time != None:
+        #     current_time = pygame.time.get_ticks()
+        #     if (current_time - self.weapon.shoot_time) < self.weapon.gun_movement_cooldown:
+        #         return
                 
         self.input()
         self.move(dt)
